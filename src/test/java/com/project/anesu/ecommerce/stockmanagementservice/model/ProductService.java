@@ -1,7 +1,10 @@
 package com.project.anesu.ecommerce.stockmanagementservice.model;
 
 import com.project.anesu.ecommerce.stockmanagementservice.entity.Product;
+import com.project.anesu.ecommerce.stockmanagementservice.service.util.ProductNotFoundException;
+
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service interface for managing {@link Product} entities in the stock management system.
@@ -23,7 +26,7 @@ public interface ProductService {
      * @param productId the ID of the {@link Product} to retrieve
      * @return the {@link Product} with the specified ID, or {@code null} if not found
      */
-    Product getProductById(Long productId);
+    Optional<Product> getProductById(Long productId);
 
     /**
      * Retrieves a list of all {@link Product}s in the system.
@@ -39,12 +42,12 @@ public interface ProductService {
      * @param updatedProduct the updated {@link Product} information
      * @return the updated {@link Product}
      */
-    Product updateProduct(Long productId, Product updatedProduct);
+    Product updateProduct(Long productId, Product updatedProduct) throws ProductNotFoundException;
 
     /**
      * Deletes a {@link Product} from the system by its ID.
      *
      * @param productId the ID of the {@link Product} to delete
      */
-    void deleteProduct(Long productId);
+    void deleteProduct(Long productId) throws ProductNotFoundException;
 }
