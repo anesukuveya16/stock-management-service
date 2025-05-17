@@ -1,27 +1,26 @@
 package com.project.anesu.ecommerce.stockmanagementservice.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Setter
 @Getter
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
-public class Product {
+@AllArgsConstructor
+public class Inventory {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private String productName;
-  private String productDescription;
-  private double price;
-  private String size;
-  private String colour;
+  private Long productId;
 
-  @ManyToOne private Category category;
+  private int currentQuantity;
 }

@@ -9,7 +9,7 @@ import static org.mockito.Mockito.*;
 import com.project.anesu.ecommerce.stockmanagementservice.entity.Category;
 import com.project.anesu.ecommerce.stockmanagementservice.entity.Product;
 import com.project.anesu.ecommerce.stockmanagementservice.model.repository.ProductRepository;
-import com.project.anesu.ecommerce.stockmanagementservice.service.util.ProductNotFoundException;
+import com.project.anesu.ecommerce.stockmanagementservice.service.exception.ProductNotFoundException;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

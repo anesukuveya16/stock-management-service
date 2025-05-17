@@ -3,7 +3,7 @@ package com.project.anesu.ecommerce.stockmanagementservice.service;
 import com.project.anesu.ecommerce.stockmanagementservice.entity.Category;
 import com.project.anesu.ecommerce.stockmanagementservice.model.CategoryService;
 import com.project.anesu.ecommerce.stockmanagementservice.model.repository.CategoryRepository;
-import com.project.anesu.ecommerce.stockmanagementservice.service.util.CategoryNotFoundException;
+import com.project.anesu.ecommerce.stockmanagementservice.service.exception.CategoryNotFoundException;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 

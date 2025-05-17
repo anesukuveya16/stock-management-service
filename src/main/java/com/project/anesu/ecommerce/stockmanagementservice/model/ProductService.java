@@ -1,7 +1,7 @@
 package com.project.anesu.ecommerce.stockmanagementservice.model;
 
 import com.project.anesu.ecommerce.stockmanagementservice.entity.Product;
-import com.project.anesu.ecommerce.stockmanagementservice.service.util.ProductNotFoundException;
+import com.project.anesu.ecommerce.stockmanagementservice.service.exception.ProductNotFoundException;
 import java.util.List;
 import java.util.Optional;
 

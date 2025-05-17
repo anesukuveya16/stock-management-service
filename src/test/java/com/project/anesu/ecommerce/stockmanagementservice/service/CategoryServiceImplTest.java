@@ -8,10 +8,9 @@ import static org.mockito.Mockito.*;
 import com.project.anesu.ecommerce.stockmanagementservice.entity.Category;
 import com.project.anesu.ecommerce.stockmanagementservice.entity.Product;
 import com.project.anesu.ecommerce.stockmanagementservice.model.repository.CategoryRepository;
-import com.project.anesu.ecommerce.stockmanagementservice.service.util.CategoryNotFoundException;
+import com.project.anesu.ecommerce.stockmanagementservice.service.exception.CategoryNotFoundException;
 import java.util.ArrayList;
 import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -65,7 +64,6 @@ class CategoryServiceImplTest {
     // Then
     verify(categoryRepositoryMock, times(1)).findById(categoryId);
   }
-
 
   @Test
   void deleteCategory_ShouldThrowExceptionWhen_GivenCategoryIdIsNotFound() {

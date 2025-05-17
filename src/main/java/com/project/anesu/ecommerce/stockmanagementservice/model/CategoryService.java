@@ -1,7 +1,7 @@
 package com.project.anesu.ecommerce.stockmanagementservice.model;
 
 import com.project.anesu.ecommerce.stockmanagementservice.entity.Category;
-import com.project.anesu.ecommerce.stockmanagementservice.service.util.CategoryNotFoundException;
+import com.project.anesu.ecommerce.stockmanagementservice.service.exception.CategoryNotFoundException;
 import java.util.Optional;
 
 /**
