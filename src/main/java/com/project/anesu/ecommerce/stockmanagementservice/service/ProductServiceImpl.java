@@ -3,7 +3,7 @@ package com.project.anesu.ecommerce.stockmanagementservice.service;
 import com.project.anesu.ecommerce.stockmanagementservice.entity.Product;
 import com.project.anesu.ecommerce.stockmanagementservice.model.ProductService;
 import com.project.anesu.ecommerce.stockmanagementservice.model.repository.ProductRepository;
-import com.project.anesu.ecommerce.stockmanagementservice.service.util.ProductNotFoundException;
+import com.project.anesu.ecommerce.stockmanagementservice.service.exception.ProductNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

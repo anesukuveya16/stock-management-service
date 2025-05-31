@@ -4,8 +4,9 @@ import com.project.anesu.ecommerce.stockmanagementservice.entity.Category;
 import com.project.anesu.ecommerce.stockmanagementservice.entity.Product;
 import com.project.anesu.ecommerce.stockmanagementservice.service.CategoryServiceImpl;
 import com.project.anesu.ecommerce.stockmanagementservice.service.ProductServiceImpl;
-import com.project.anesu.ecommerce.stockmanagementservice.service.util.CategoryNotFoundException;
-import com.project.anesu.ecommerce.stockmanagementservice.service.util.ProductNotFoundException;
+import com.project.anesu.ecommerce.stockmanagementservice.service.exception.CategoryNotFoundException;
+import com.project.anesu.ecommerce.stockmanagementservice.service.exception.ProductNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,19 +15,13 @@ import java.util.Optional;
 import static com.project.anesu.ecommerce.stockmanagementservice.controller.StockControllerEndpoints.*;
 
 @RestController
-@RequestMapping("/api/stock")
+@RequestMapping(LANDING_PAGE)
+@AllArgsConstructor
 public class StockController {
 
     private final ProductServiceImpl productService;
     private final CategoryServiceImpl categoryService;
 
-    public StockController(ProductServiceImpl productService, CategoryServiceImpl categoryService) {
-        this.productService = productService;
-        this.categoryService = categoryService;
-    }
-
-
-    // product
     @PostMapping(CREATE_PRODUCT)
     public Product addProduct(@RequestBody Product product) {
         return productService.addNewProduct(product);
@@ -53,7 +48,6 @@ public class StockController {
         productService.deleteProduct(id);
     }
 
-    // category
     @PostMapping(CREATE_CATEGORY)
     public Category createCategory(@RequestBody Category category) {
         return categoryService.createNewCategory(category);
