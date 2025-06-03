@@ -12,7 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Inventory {
 
-    @Id
-    private Long productId;
-    private int availableQuantity;
+  @Id private Long productId;
+  private int availableQuantity;
 }
