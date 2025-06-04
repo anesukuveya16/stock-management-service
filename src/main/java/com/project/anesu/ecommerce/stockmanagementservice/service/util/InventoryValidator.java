@@ -2,7 +2,6 @@ package com.project.anesu.ecommerce.stockmanagementservice.service.util;
 
 import com.project.anesu.ecommerce.stockmanagementservice.entity.Inventory;
 import com.project.anesu.ecommerce.stockmanagementservice.model.repository.InventoryRepository;
-import com.project.anesu.ecommerce.stockmanagementservice.service.exception.LowStockException;
 import com.project.anesu.ecommerce.stockmanagementservice.service.exception.ProductNotFoundException;
 import java.util.HashMap;
 import java.util.List;
