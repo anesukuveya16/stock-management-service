@@ -6,21 +6,27 @@ import com.project.anesu.ecommerce.stockmanagementservice.model.repository.Produ
 import com.project.anesu.ecommerce.stockmanagementservice.service.exception.ProductNotFoundException;
 import java.util.List;
 import java.util.Optional;
+
+import com.project.anesu.ecommerce.stockmanagementservice.service.util.ProductValidator;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
-
-  private static final String PRODUCT_NOT_FOUND_EXCEPTION = "Product not found with id";
 
   private final ProductRepository productRepository;
 
-  public ProductServiceImpl(ProductRepository productRepository) {
-    this.productRepository = productRepository;
-  }
+  private final ProductValidator productValidator;
+
+  private static final String PRODUCT_NOT_FOUND_EXCEPTION = "Product not found with id";
+
+
 
   @Override
   public Product addNewProduct(Product product) {
+
+    productValidator.validateProduct(product);
     return productRepository.save(product);
   }
 
