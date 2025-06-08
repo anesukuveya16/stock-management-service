@@ -51,10 +51,14 @@ public class ProductServiceImpl implements ProductService {
             .orElseThrow(
                 () -> new ProductNotFoundException(PRODUCT_NOT_FOUND_EXCEPTION + productId));
 
-    newlyUpdatedProduct(updatedProduct, existingProduct);
+    Product updatedExistingProduct = updateExistingProduct(updatedProduct, existingProduct);
 
-    return productRepository.save(existingProduct);
+    productValidator.validateProduct(updatedExistingProduct);
+
+    return productRepository.save(updatedExistingProduct);
   }
+
+
 
   @Override
   public void deleteProduct(Long productId) throws ProductNotFoundException {
@@ -64,12 +68,13 @@ public class ProductServiceImpl implements ProductService {
     productRepository.deleteById(productId);
   }
 
-  private static void newlyUpdatedProduct(Product updatedProduct, Product existingProduct) {
-    existingProduct.setProductName(updatedProduct.getProductName());
+  private Product updateExistingProduct(Product updatedProduct, Product existingProduct) {
     existingProduct.setSize(updatedProduct.getSize());
     existingProduct.setPrice(updatedProduct.getPrice());
     existingProduct.setColour(updatedProduct.getColour());
-    existingProduct.setCategory(updatedProduct.getCategory());
+    existingProduct.setProductName(updatedProduct.getProductName());
     existingProduct.setProductDescription(updatedProduct.getProductDescription());
+    return existingProduct;
   }
+
 }
