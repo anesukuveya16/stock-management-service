@@ -1,7 +1,7 @@
 package com.project.anesu.ecommerce.stockmanagementservice.model;
 
 import com.project.anesu.ecommerce.stockmanagementservice.entity.Product;
-import com.project.anesu.ecommerce.stockmanagementservice.service.exception.ProductNotFoundException;
+import com.project.anesu.ecommerce.stockmanagementservice.service.exception.InvalidProductException;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,12 +41,12 @@ public interface ProductService {
    * @param updatedProduct the updated {@link Product} information
    * @return the updated {@link Product}
    */
-  Product updateProduct(Long productId, Product updatedProduct) throws ProductNotFoundException;
+  Product updateProduct(Long productId, Product updatedProduct) throws InvalidProductException;
 
   /**
    * Deletes a {@link Product} from the system by its ID.
    *
    * @param productId the ID of the {@link Product} to delete
    */
-  void deleteProduct(Long productId) throws ProductNotFoundException;
+  void deleteProduct(Long productId) throws InvalidProductException;
 }
