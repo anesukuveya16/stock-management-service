@@ -7,9 +7,9 @@ import com.project.anesu.ecommerce.stockmanagementservice.entity.Product;
 import com.project.anesu.ecommerce.stockmanagementservice.service.CategoryServiceImpl;
 import com.project.anesu.ecommerce.stockmanagementservice.service.ProductServiceImpl;
 import com.project.anesu.ecommerce.stockmanagementservice.service.exception.CategoryNotFoundException;
-import com.project.anesu.ecommerce.stockmanagementservice.service.exception.ProductNotFoundException;
+import com.project.anesu.ecommerce.stockmanagementservice.service.exception.InvalidProductException;
+import com.project.anesu.ecommerce.stockmanagementservice.service.exception.LowStockException;
 import com.project.anesu.ecommerce.stockmanagementservice.service.util.InventoryValidator;
-import com.project.anesu.ecommerce.stockmanagementservice.service.util.LowStockException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,54 +27,54 @@ public class StockController {
   private final CategoryServiceImpl categoryService;
   private final InventoryValidator inventoryValidator;
 
-  @PostMapping(CREATE_PRODUCT)
+  @PostMapping(StockControllerEndpoints.CREATE_PRODUCT)
   public Product addProduct(@RequestBody Product product) {
     return productService.addNewProduct(product);
   }
 
-  @GetMapping(GET_PRODUCT_BY_ID)
+  @GetMapping(StockControllerEndpoints.GET_PRODUCT_BY_ID)
   public Optional<Product> getProductById(@PathVariable Long id) {
     return productService.getProductById(id);
   }
 
-  @GetMapping
+  @GetMapping(StockControllerEndpoints.GET_ALL_PRODUCTS)
   public List<Product> getAllProducts() {
     return productService.getAllProducts();
   }
 
-  @PutMapping(UPDATE_PRODUCT)
+  @PutMapping(StockControllerEndpoints.UPDATE_PRODUCT)
   public Product updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct)
-      throws ProductNotFoundException {
+      throws InvalidProductException {
     return productService.updateProduct(id, updatedProduct);
   }
 
-  @DeleteMapping(DELETE_PRODUCT)
-  public void deleteProduct(@PathVariable Long id) throws ProductNotFoundException {
+  @DeleteMapping(StockControllerEndpoints.DELETE_PRODUCT)
+  public void deleteProduct(@PathVariable Long id) throws InvalidProductException {
     productService.deleteProduct(id);
   }
 
-  @PostMapping(CREATE_CATEGORY)
+  @PostMapping(StockControllerEndpoints.CREATE_CATEGORY)
   public Category createCategory(@RequestBody Category category) {
     return categoryService.createNewCategory(category);
   }
 
-  @GetMapping(GET_CATEGORY_BY_ID)
+  @GetMapping(StockControllerEndpoints.GET_CATEGORY_BY_ID)
   public Optional<Category> getCategoryById(@PathVariable Long id) {
     return categoryService.getCategoryById(id);
   }
 
-  @DeleteMapping(DELETE_CATEGORY)
+  @DeleteMapping(StockControllerEndpoints.DELETE_CATEGORY)
   public void deleteCategory(@PathVariable Long id) throws CategoryNotFoundException {
     categoryService.deleteCategory(id);
   }
 
-  @PostMapping(VALIDATE_AND_DEDUCT_PRODUCT_FROM_INVENTORY)
+  @PostMapping(StockControllerEndpoints.VALIDATE_AND_DEDUCT_PRODUCT_FROM_INVENTORY)
   public ResponseEntity<String> validateInventory(
       @RequestBody List<Map<String, Object>> orderItems) {
     try {
       inventoryValidator.validateInventoryAvailability(orderItems);
       return ResponseEntity.ok("Inventory successfully validated!");
-    } catch (ProductNotFoundException e) {
+    } catch (InvalidProductException e) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     } catch (LowStockException e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
