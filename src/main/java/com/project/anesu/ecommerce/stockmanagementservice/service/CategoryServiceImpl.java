@@ -4,7 +4,6 @@ import com.project.anesu.ecommerce.stockmanagementservice.entity.Category;
 import com.project.anesu.ecommerce.stockmanagementservice.model.CategoryService;
 import com.project.anesu.ecommerce.stockmanagementservice.model.repository.CategoryRepository;
 import com.project.anesu.ecommerce.stockmanagementservice.service.exception.CategoryNotFoundException;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,17 +18,33 @@ public class CategoryServiceImpl implements CategoryService {
 
   @Override
   public Category createNewCategory(Category category) {
+
     return categoryRepository.save(category);
   }
 
   @Override
-  public Optional<Category> getCategoryById(Long categoryId) {
-    return categoryRepository.findById(categoryId);
+  public Category getCategoryById(Long categoryId) throws CategoryNotFoundException {
+
+    return categoryRepository
+        .findById(categoryId)
+        .orElseThrow(() -> new CategoryNotFoundException(CATEGORY_NOT_FOUND_MESSAGE + categoryId));
+  }
+
+  @Override
+  public Category updateCategory(Long categoryId, Category updatedCategory)
+      throws CategoryNotFoundException {
+
+    Category existingCategory = getCategoryById(categoryId);
+
+    existingCategory.setCategoryName(updatedCategory.getCategoryName());
+
+    return categoryRepository.save(existingCategory);
   }
 
   @Override
   public void deleteCategory(Long categoryId) throws CategoryNotFoundException {
-    if (categoryRepository.existsById(categoryId)) {
+
+    if (!categoryRepository.existsById(categoryId)) {
       throw new CategoryNotFoundException(CATEGORY_NOT_FOUND_MESSAGE);
     }
     categoryRepository.deleteById(categoryId);
