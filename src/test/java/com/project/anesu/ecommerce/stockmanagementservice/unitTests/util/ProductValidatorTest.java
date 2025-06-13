@@ -24,7 +24,6 @@ class ProductValidatorTest {
   private static final String PRODUCT_NAME = "Product Name";
   private static final String PRODUCT_DESCRIPTION = "Product Description";
 
-
   @Test
   void shouldThrowExceptionWhen_ProductNameIsNull() {
     // Given
