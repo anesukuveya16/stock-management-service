@@ -3,7 +3,6 @@ package com.project.anesu.ecommerce.stockmanagementservice.model;
 import com.project.anesu.ecommerce.stockmanagementservice.entity.Product;
 import com.project.anesu.ecommerce.stockmanagementservice.service.exception.InvalidProductException;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Service interface for managing {@link Product} entities in the stock management system. Provides
@@ -25,7 +24,7 @@ public interface ProductService {
    * @param productId the ID of the {@link Product} to retrieve
    * @return the {@link Product} with the specified ID, or {@code null} if not found
    */
-  Optional<Product> getProductById(Long productId);
+  Product getProductById(Long productId);
 
   /**
    * Retrieves a list of all {@link Product}s in the system.

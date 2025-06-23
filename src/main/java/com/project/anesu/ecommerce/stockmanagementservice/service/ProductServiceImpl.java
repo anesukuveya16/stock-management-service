@@ -4,9 +4,9 @@ import com.project.anesu.ecommerce.stockmanagementservice.entity.Product;
 import com.project.anesu.ecommerce.stockmanagementservice.model.ProductService;
 import com.project.anesu.ecommerce.stockmanagementservice.model.repository.ProductRepository;
 import com.project.anesu.ecommerce.stockmanagementservice.service.exception.InvalidProductException;
+import com.project.anesu.ecommerce.stockmanagementservice.service.exception.ProductNotFoundException;
 import com.project.anesu.ecommerce.stockmanagementservice.service.util.ProductValidator;
 import java.util.List;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class ProductServiceImpl implements ProductService {
 
   private final ProductValidator productValidator;
 
-  private static final String PRODUCT_NOT_FOUND_EXCEPTION = "Product not found with id";
+  private static final String PRODUCT_NOT_FOUND_MESSAGE = "Product not found with id";
 
   @Override
   public Product addNewProduct(Product product) {
@@ -28,8 +28,11 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public Optional<Product> getProductById(Long productId) {
-    return productRepository.findById(productId);
+  public Product getProductById(Long productId) {
+
+    return productRepository
+        .findById(productId)
+        .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND_MESSAGE));
   }
 
   // TODO: add product to category?
@@ -42,11 +45,11 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public Product updateProduct(Long productId, Product updatedProduct)
       throws InvalidProductException {
+
     Product existingProduct =
         productRepository
             .findById(productId)
-            .orElseThrow(
-                () -> new InvalidProductException(PRODUCT_NOT_FOUND_EXCEPTION + productId));
+            .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND_MESSAGE + productId));
 
     Product updatedExistingProduct = updateExistingProduct(updatedProduct, existingProduct);
 
@@ -56,9 +59,9 @@ public class ProductServiceImpl implements ProductService {
   }
 
   @Override
-  public void deleteProduct(Long productId) throws InvalidProductException {
+  public void deleteProduct(Long productId) throws ProductNotFoundException {
     if (!productRepository.existsById(productId)) {
-      throw new InvalidProductException(PRODUCT_NOT_FOUND_EXCEPTION + productId);
+      throw new ProductNotFoundException(PRODUCT_NOT_FOUND_MESSAGE + productId);
     }
     productRepository.deleteById(productId);
   }
