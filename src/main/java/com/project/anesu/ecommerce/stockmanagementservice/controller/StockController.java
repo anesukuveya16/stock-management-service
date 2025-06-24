@@ -28,48 +28,64 @@ public class StockController {
 
   @PostMapping(CREATE_CATEGORY)
   public Category createCategory(@RequestBody Category category) {
+
     return categoryService.createNewCategory(category);
   }
 
   @GetMapping(GET_CATEGORY_BY_ID)
   public Category getCategoryById(@PathVariable Long categoryId) {
+
     return categoryService.getCategoryById(categoryId);
   }
 
   @DeleteMapping(DELETE_CATEGORY)
-  public void deleteCategory(@PathVariable Long categoryId) throws CategoryNotFoundException {
+  public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId) throws CategoryNotFoundException {
+
     categoryService.deleteCategory(categoryId);
+    return ResponseEntity.noContent().build();
   }
 
   @PostMapping(CREATE_PRODUCT)
   public Product addProduct(@RequestBody Product product) {
+
     return productService.addNewProduct(product);
   }
 
   @GetMapping(GET_PRODUCT_BY_ID)
   public Product getProductById(@PathVariable Long productId) {
+
     return productService.getProductById(productId);
   }
 
   @GetMapping(GET_ALL_PRODUCTS)
   public List<Product> getAllProducts() {
+
     return productService.getAllProducts();
   }
 
   @PutMapping(UPDATE_PRODUCT)
-  public Product updateProduct(@PathVariable Long productId, @RequestBody Product updatedProduct)
+  public ResponseEntity<Product> updateProduct(@PathVariable Long productId, @RequestBody Product updatedProduct)
       throws InvalidProductException {
-    return productService.updateProduct(productId, updatedProduct);
+
+    Product update = productService.updateProduct(productId, updatedProduct);
+    if (update != null) {
+      return ResponseEntity.ok(update);
+    } else {
+      return ResponseEntity.notFound().build();
+    }
   }
 
   @DeleteMapping(DELETE_PRODUCT)
-  public void deleteProduct(@PathVariable Long productId) throws InvalidProductException {
+  public ResponseEntity<Void> deleteProduct(@PathVariable Long productId) throws InvalidProductException {
+
     productService.deleteProduct(productId);
+    return ResponseEntity.noContent().build();
   }
 
   @PostMapping(VALIDATE_AND_DEDUCT_PRODUCT_FROM_INVENTORY)
   public ResponseEntity<String> validateInventory(
       @RequestBody List<Map<String, Object>> orderItems) {
+
     try {
       inventoryValidator.validateInventoryAvailability(orderItems);
       return ResponseEntity.ok().build();
@@ -83,6 +99,7 @@ public class StockController {
   @PostMapping(ADD_RETURNED_INVENTORY)
   public ResponseEntity<String> addReturnedInventory(
       @RequestBody List<Map<String, Object>> returnOrderItems) {
+
     try {
       inventoryValidator.validateInventoryAvailability(returnOrderItems);
       return ResponseEntity.ok().build();
