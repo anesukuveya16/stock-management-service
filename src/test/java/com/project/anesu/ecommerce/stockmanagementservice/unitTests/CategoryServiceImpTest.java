@@ -76,6 +76,34 @@ class CategoryServiceImpTest {
     verifyNoMoreInteractions(categoryRepositoryMock);
   }
 
+  // shouldUpdateCategorySuccessfully
+  @Test
+  void shouldSuccessfully_UpdateCategory() {
+
+    // Given
+    Long categoryId = 1L;
+    Category existingCategory = getRequestedCategory(1L, "Mens´shirts.");
+
+    Category updatedCategory = getRequestedCategory(1L, "Mens´formal shirts.");
+
+    when(categoryRepositoryMock.findById(categoryId)).thenReturn(Optional.of(existingCategory));
+
+    when(categoryRepositoryMock.save(existingCategory)).thenReturn(updatedCategory);
+
+
+    // When
+    Category updatedCategoryUpdated = cut.updateCategory(categoryId, updatedCategory);
+
+    // Then
+    assertNotNull(updatedCategoryUpdated);
+    assertEquals(updatedCategory, updatedCategoryUpdated);
+
+    verify(categoryRepositoryMock, times(1)).findById(categoryId);
+    verify(categoryRepositoryMock, times(1)).save(existingCategory);
+
+  }
+
+
   @Test
   void deleteCategoryById_ShouldSuccessfullyDeleteCategory() {
 
@@ -99,5 +127,12 @@ class CategoryServiceImpTest {
 
     // When & Then
     assertThrows(CategoryNotFoundException.class, () -> cut.deleteCategory(categoryId));
+  }
+
+  private Category getRequestedCategory(Long categoryId, String Mens_shirts) {
+    Category existingCategory = new Category();
+    existingCategory.setId(categoryId);
+    existingCategory.setCategoryName(Mens_shirts);
+    return existingCategory;
   }
 }

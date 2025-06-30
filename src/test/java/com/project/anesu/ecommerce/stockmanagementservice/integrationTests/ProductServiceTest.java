@@ -188,7 +188,6 @@ class ProductServiceTest {
         .statusCode(200);
   }
 
-
   @Test
   void shouldRetrieveAllProductsFromDatabase() {
 
@@ -196,18 +195,18 @@ class ProductServiceTest {
     String addedProduct = String.format(addProductRequestBody, categoryId);
 
     RestAssured.given()
-            .contentType(ContentType.JSON)
-            .body(addedProduct)
-            .when()
-            .post(LANDING_PAGE + CREATE_PRODUCT)
-            .then()
-            .statusCode(200)
-            .body("productName", equalTo("Denim Jacket"))
-            .body("price", equalTo(69.99f))
-            .body("size", equalTo(36));
+        .contentType(ContentType.JSON)
+        .body(addedProduct)
+        .when()
+        .post(LANDING_PAGE + CREATE_PRODUCT)
+        .then()
+        .statusCode(200)
+        .body("productName", equalTo("Denim Jacket"))
+        .body("price", equalTo(69.99f))
+        .body("size", equalTo(36));
 
     String addedProductTwoRequestBody =
-            """
+        """
                     {
                       "productName": "Long formal skirt",
                       "productDescription": "Knee length summer skirt.",
@@ -221,27 +220,24 @@ class ProductServiceTest {
                     """;
     String addedProductTwo = String.format(addedProductTwoRequestBody, categoryId);
 
+    RestAssured.given()
+        .contentType(ContentType.JSON)
+        .body(addedProductTwo)
+        .when()
+        .post(LANDING_PAGE + CREATE_PRODUCT)
+        .then()
+        .statusCode(200)
+        .body("productName", equalTo("Long formal skirt"))
+        .body("price", equalTo(9.99f))
+        .body("size", equalTo(38));
 
     RestAssured.given()
-            .contentType(ContentType.JSON)
-            .body(addedProductTwo)
-            .when()
-            .post(LANDING_PAGE + CREATE_PRODUCT)
-            .then()
-            .statusCode(200)
-            .body("productName", equalTo("Long formal skirt"))
-            .body("price", equalTo(9.99f))
-            .body("size", equalTo(38));
-
-    RestAssured.given()
-            .contentType(ContentType.JSON)
-            .when()
-            .get(LANDING_PAGE + GET_ALL_PRODUCTS)
-            .then()
-            .statusCode(200);
+        .contentType(ContentType.JSON)
+        .when()
+        .get(LANDING_PAGE + GET_ALL_PRODUCTS)
+        .then()
+        .statusCode(200);
   }
-
-
 
   private static String getAddProduct() {
     return """
@@ -257,6 +253,4 @@ class ProductServiceTest {
           }
           """;
   }
-
-
 }

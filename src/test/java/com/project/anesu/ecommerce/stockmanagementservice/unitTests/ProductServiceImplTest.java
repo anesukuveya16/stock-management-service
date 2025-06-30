@@ -35,13 +35,7 @@ class ProductServiceImplTest {
   void shouldSuccessfullyCreateAndSaveNewProduct_WhenValidationIsPassed() {
 
     // Given
-    Product product = new Product();
-    product.setId(1L);
-    product.setProductName("Denim short");
-    product.setProductDescription("Summer shorts");
-    product.setPrice(2.50);
-    product.setColour("white");
-    product.setSize(30);
+    Product product = getNewProduct();
 
     Category category = new Category();
     category.setId(10L);
@@ -59,26 +53,14 @@ class ProductServiceImplTest {
 
     verify(productValidatorMock).validateProduct(product);
     verify(productRepositoryMock, times(1)).save(product);
-
   }
+
 
   @Test
   void shouldNotSaveProduct_WhenValidationIsNotPassed() {
 
     // Given
-
-    Product product = new Product();
-    product.setId(1L);
-    product.setProductName("Denim short");
-    product.setProductDescription("Summer shorts");
-    product.setPrice(2.50);
-    product.setColour("white");
-    product.setSize(30);
-
-    Category category = new Category();
-    category.setId(10L);
-    category.setCategoryName("Shorts");
-
+    Product product = getNewProduct();
     doThrow(InvalidProductException.class).when(productValidatorMock).validateProduct(product);
 
     // When
@@ -87,31 +69,16 @@ class ProductServiceImplTest {
     // Then
     verifyNoInteractions(productRepositoryMock);
     verify(productValidatorMock).validateProduct(product);
-
   }
 
   @Test
   void shouldSuccessfullyUpdateProduct_WhenValidationIsPassed() {
 
     // Given
-
     Long productId = 1L;
-    Product existingProduct = new Product();
-    existingProduct.setId(productId);
-    existingProduct.setProductName("Denim short");
-    existingProduct.setProductDescription("Summer shorts");
-    existingProduct.setPrice(2.50);
-    existingProduct.setColour("white");
-    existingProduct.setSize(30);
+    Product existingProduct = getRequestedProduct(1L, "Denim short", "Summer shorts");
 
-
-    Product updatedProduct = new Product();
-    updatedProduct.setId(1L);
-    updatedProduct.setProductName("Women Denim short");
-    updatedProduct.setProductDescription("Casual summer shorts");
-    updatedProduct.setPrice(2.50);
-    updatedProduct.setColour("white");
-    updatedProduct.setSize(30);
+    Product updatedProduct = getRequestedProduct(1L, "Women Denim short", "Casual summer shorts");
 
     when(productRepositoryMock.findById(productId)).thenReturn(Optional.of(existingProduct));
     doNothing().when(productValidatorMock).validateProduct(any(Product.class));
@@ -124,10 +91,11 @@ class ProductServiceImplTest {
     // Then
     assertNotNull(updateProduct);
 
-    verify(productValidatorMock).validateProduct(updatedProduct);
+    verify(productValidatorMock).validateProduct(existingProduct);
     verify(productRepositoryMock).save(existingProduct);
     verify(productRepositoryMock, times(1)).findById(productId);
   }
+
 
   @Test
   void shouldSuccessfullyRetrieveProductById() {
@@ -199,6 +167,27 @@ class ProductServiceImplTest {
 
     // Then
     verifyNoMoreInteractions(productRepositoryMock);
-
   }
+
+  private Product getNewProduct() {
+    Product product = new Product();
+    product.setProductName("Denim short");
+    product.setProductDescription("Summer shorts");
+    product.setPrice(2.50);
+    product.setColour("white");
+    product.setSize(30);
+    return product;
+  }
+
+  private Product getRequestedProduct(Long productId, String Denim_short, String Summer_shorts) {
+    Product existingProduct = new Product();
+    existingProduct.setId(productId);
+    existingProduct.setProductName(Denim_short);
+    existingProduct.setProductDescription(Summer_shorts);
+    existingProduct.setPrice(2.50);
+    existingProduct.setColour("white");
+    existingProduct.setSize(30);
+    return existingProduct;
+  }
+
 }
