@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-  private static final String CATEGORY_NOT_FOUND_MESSAGE = "Category not found.";
   private final CategoryRepository categoryRepository;
 
   public CategoryServiceImpl(CategoryRepository categoryRepository) {
@@ -27,7 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     return categoryRepository
         .findById(categoryId)
-        .orElseThrow(() -> new CategoryNotFoundException(CATEGORY_NOT_FOUND_MESSAGE + categoryId));
+        .orElseThrow(() -> new CategoryNotFoundException(categoryId));
   }
 
   @Override
@@ -45,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
   public void deleteCategory(Long categoryId) throws CategoryNotFoundException {
 
     if (!categoryRepository.existsById(categoryId)) {
-      throw new CategoryNotFoundException(CATEGORY_NOT_FOUND_MESSAGE);
+      throw new CategoryNotFoundException(categoryId);
     }
     categoryRepository.deleteById(categoryId);
   }

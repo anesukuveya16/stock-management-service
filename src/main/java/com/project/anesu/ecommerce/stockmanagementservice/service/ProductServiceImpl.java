@@ -18,7 +18,6 @@ public class ProductServiceImpl implements ProductService {
 
   private final ProductValidator productValidator;
 
-  private static final String PRODUCT_NOT_FOUND_MESSAGE = "Product not found with id";
 
   @Override
   public Product addNewProduct(Product product) {
@@ -32,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
 
     return productRepository
         .findById(productId)
-        .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND_MESSAGE));
+        .orElseThrow(() -> new ProductNotFoundException(productId));
   }
 
   // TODO: add product to category?
@@ -49,8 +48,7 @@ public class ProductServiceImpl implements ProductService {
     Product existingProduct =
         productRepository
             .findById(productId)
-            .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND_MESSAGE + productId));
-
+            .orElseThrow(() -> new ProductNotFoundException(productId));
     Product updatedExistingProduct = updateExistingProduct(updatedProduct, existingProduct);
 
     productValidator.validateProduct(updatedExistingProduct);
@@ -61,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
   @Override
   public void deleteProduct(Long productId) throws ProductNotFoundException {
     if (!productRepository.existsById(productId)) {
-      throw new ProductNotFoundException(PRODUCT_NOT_FOUND_MESSAGE + productId);
+      throw new ProductNotFoundException(productId);
     }
     productRepository.deleteById(productId);
   }
