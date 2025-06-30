@@ -101,7 +101,7 @@ public class StockController {
       @RequestBody List<Map<String, Object>> returnOrderItems) {
 
     try {
-      inventoryValidator.validateInventoryAvailability(returnOrderItems);
+      inventoryValidator.addInventoryReturns(returnOrderItems);
       return ResponseEntity.ok().build();
     } catch (InvalidProductException e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
