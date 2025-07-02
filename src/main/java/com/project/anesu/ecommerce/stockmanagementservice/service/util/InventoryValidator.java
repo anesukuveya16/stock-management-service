@@ -42,15 +42,12 @@ public class InventoryValidator {
         throw new LowStockException(
             "Only "
                 + inventory.getAvailableQuantity()
-                + "from "
+                + " from product "
                 + productId
                 + " is currently available.");
       }
     }
 
-    // now that we have found the product and the products are "up" for being sold - we deduct the
-    // requestQuantity from the availableQuantity. this only works when there are no exceptions from
-    // the first step.
     for (Map<String, Object> item : orderItemsToDeductForOrderCreation) {
 
       Long productId = getProductId(item);
@@ -58,6 +55,23 @@ public class InventoryValidator {
       Inventory inventory = productInventories.get(productId);
 
       inventory.setAvailableQuantity(inventory.getAvailableQuantity() - requestedQuantity);
+      inventoryRepository.save(inventory);
+    }
+  }
+
+  public void addInventoryReturns(List<Map<String, Object>> orderItemsReturningToCurrentInventory) {
+    for (Map<String, Object> item : orderItemsReturningToCurrentInventory) {
+      Long productId = getProductId(item);
+      int returningInventoryQuantity = getRequestedQuantity(item);
+
+      Inventory inventory =
+          inventoryRepository
+              .findById(productId)
+              .orElseThrow(
+                  () ->
+                      new InvalidProductException("Product with id " + productId + " not found."));
+
+      inventory.setAvailableQuantity(inventory.getAvailableQuantity() + returningInventoryQuantity);
       inventoryRepository.save(inventory);
     }
   }
