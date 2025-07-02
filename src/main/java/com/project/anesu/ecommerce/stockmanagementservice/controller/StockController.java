@@ -39,7 +39,8 @@ public class StockController {
   }
 
   @DeleteMapping(DELETE_CATEGORY)
-  public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId) throws CategoryNotFoundException {
+  public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId)
+      throws CategoryNotFoundException {
 
     categoryService.deleteCategory(categoryId);
     return ResponseEntity.noContent().build();
@@ -64,7 +65,8 @@ public class StockController {
   }
 
   @PutMapping(UPDATE_PRODUCT)
-  public ResponseEntity<Product> updateProduct(@PathVariable Long productId, @RequestBody Product updatedProduct)
+  public ResponseEntity<Product> updateProduct(
+      @PathVariable Long productId, @RequestBody Product updatedProduct)
       throws InvalidProductException {
 
     Product update = productService.updateProduct(productId, updatedProduct);
@@ -76,7 +78,8 @@ public class StockController {
   }
 
   @DeleteMapping(DELETE_PRODUCT)
-  public ResponseEntity<Void> deleteProduct(@PathVariable Long productId) throws InvalidProductException {
+  public ResponseEntity<Void> deleteProduct(@PathVariable Long productId)
+      throws InvalidProductException {
 
     productService.deleteProduct(productId);
     return ResponseEntity.noContent().build();

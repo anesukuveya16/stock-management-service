@@ -18,7 +18,6 @@ public class ProductServiceImpl implements ProductService {
 
   private final ProductValidator productValidator;
 
-
   @Override
   public Product addNewProduct(Product product) {
 
