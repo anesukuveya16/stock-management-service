@@ -90,7 +90,6 @@ class CategoryServiceImpTest {
 
     when(categoryRepositoryMock.save(existingCategory)).thenReturn(updatedCategory);
 
-
     // When
     Category updatedCategoryUpdated = cut.updateCategory(categoryId, updatedCategory);
 
@@ -100,9 +99,7 @@ class CategoryServiceImpTest {
 
     verify(categoryRepositoryMock, times(1)).findById(categoryId);
     verify(categoryRepositoryMock, times(1)).save(existingCategory);
-
   }
-
 
   @Test
   void deleteCategoryById_ShouldSuccessfullyDeleteCategory() {

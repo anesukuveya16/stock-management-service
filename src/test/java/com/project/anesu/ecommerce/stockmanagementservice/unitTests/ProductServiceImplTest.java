@@ -55,7 +55,6 @@ class ProductServiceImplTest {
     verify(productRepositoryMock, times(1)).save(product);
   }
 
-
   @Test
   void shouldNotSaveProduct_WhenValidationIsNotPassed() {
 
@@ -95,7 +94,6 @@ class ProductServiceImplTest {
     verify(productRepositoryMock).save(existingProduct);
     verify(productRepositoryMock, times(1)).findById(productId);
   }
-
 
   @Test
   void shouldSuccessfullyRetrieveProductById() {
@@ -189,5 +187,4 @@ class ProductServiceImplTest {
     existingProduct.setSize(30);
     return existingProduct;
   }
-
 }
