@@ -37,6 +37,7 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public List<Product> getAllProducts() {
+
     return productRepository.findAll();
   }
 
@@ -57,6 +58,7 @@ public class ProductServiceImpl implements ProductService {
 
   @Override
   public void deleteProduct(Long productId) throws ProductNotFoundException {
+
     if (!productRepository.existsById(productId)) {
       throw new ProductNotFoundException(productId);
     }

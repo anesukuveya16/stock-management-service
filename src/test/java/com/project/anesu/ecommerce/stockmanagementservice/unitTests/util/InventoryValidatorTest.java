@@ -28,7 +28,8 @@ class InventoryValidatorTest {
   }
 
   @Test
-  void validateInventoryAvailability_ShouldSuccessfullyValidateAndDeductInventoryFroOrderCreation() {
+  void
+      validateInventoryAvailability_ShouldSuccessfullyValidateAndDeductInventoryFroOrderCreation() {
 
     // Given
     Long productId = 1L;
