@@ -52,7 +52,7 @@ class CategoryServiceTest {
                 }
             """;
 
-    Integer categoryId =
+    Long categoryId =
         RestAssured.given()
             .contentType(ContentType.JSON)
             .body(categoryRequestBody)
@@ -62,21 +62,13 @@ class CategoryServiceTest {
             .statusCode(200)
             .body("products.size()", equalTo(0))
             .extract()
-            .path("id");
-
-    String retrieveCategory =
-        """
-                {
-                    "categoryName": "Denim Jeans",
-                    "products": []
-                }
-            """;
+            .jsonPath()
+            .getLong("id");
 
     RestAssured.given()
-        .contentType(ContentType.JSON)
-        .body(retrieveCategory)
+        .pathParam("categoryId", categoryId)
         .when()
-        .get(LANDING_PAGE + GET_CATEGORY_BY_ID, categoryId)
+        .get(LANDING_PAGE + GET_CATEGORY_BY_ID)
         .then()
         .statusCode(200);
   }
@@ -92,7 +84,7 @@ class CategoryServiceTest {
                 }
             """;
 
-    Integer categoryId =
+    Long categoryId =
         RestAssured.given()
             .contentType(ContentType.JSON)
             .body(categoryRequestBody)
@@ -102,22 +94,16 @@ class CategoryServiceTest {
             .statusCode(200)
             .body("products.size()", equalTo(0))
             .extract()
-            .path("id");
-
-    String deleteCategory =
-        """
-                    {
-                        "categoryName": "Denim Jeans",
-                        "products": []
-                    }
-                """;
+            .jsonPath()
+            .getLong("id");
 
     RestAssured.given()
         .contentType(ContentType.JSON)
-        .body(deleteCategory)
         .when()
         .delete(LANDING_PAGE + DELETE_CATEGORY, categoryId)
         .then()
-        .statusCode(200);
+        .log()
+        .all()
+        .statusCode(204);
   }
 }
