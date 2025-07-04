@@ -21,7 +21,6 @@ public class InventoryValidator {
 
     Map<Long, Inventory> productInventories = new HashMap<>();
 
-    // look up the productId´s and see if there is an error - throw an exception.
     for (Map<String, Object> item : orderItemsToDeductForOrderCreation) {
       Long productId = getProductId(item);
       int requestedQuantity = getRequestedQuantity(item);
@@ -37,7 +36,6 @@ public class InventoryValidator {
                               new InvalidProductException(
                                   "Product with id " + productId + " not found")));
 
-      // match the requestedQuantity from the currentQuantity
       if (inventory.getAvailableQuantity() < requestedQuantity) {
         throw new LowStockException(
             "Only "
