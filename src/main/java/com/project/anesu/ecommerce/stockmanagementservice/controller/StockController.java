@@ -38,6 +38,18 @@ public class StockController {
     return categoryService.getCategoryById(categoryId);
   }
 
+  @PutMapping(UPDATE_CATEGORY)
+  public ResponseEntity<Category> updateCategory(@PathVariable Long categoryId, @RequestBody Category updateCategory) {
+
+    Category updatedCategory = categoryService.updateCategory(categoryId, updateCategory);
+    if (updatedCategory != null) {
+      return ResponseEntity.ok(updatedCategory);
+    } else {
+      return ResponseEntity.notFound().build();
+    }
+  }
+
+
   @DeleteMapping(DELETE_CATEGORY)
   public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId)
       throws CategoryNotFoundException {

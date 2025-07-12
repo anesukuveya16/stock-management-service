@@ -42,6 +42,46 @@ class CategoryServiceTest {
   }
 
   @Test
+  void shouldSuccessfullyUpdateCategory() {
+
+      String categoryRequestBody =
+              """
+                  {
+                      "categoryName": "Tops",
+                      "products": []
+                  }
+              """;
+
+     Long categoryId = RestAssured.given()
+              .contentType(ContentType.JSON)
+              .body(categoryRequestBody)
+              .when()
+              .post(LANDING_PAGE + CREATE_CATEGORY)
+              .then()
+              .statusCode(200)
+              .body("products.size()", equalTo(0))
+             .extract().jsonPath().getLong("id");
+
+
+      String updateCategoryRequestBody =
+              """
+                  {
+                      "categoryName": "Summer ladies tops",
+                      "products": []
+                  }
+              """;
+
+      RestAssured.given()
+              .contentType(ContentType.JSON)
+              .body(updateCategoryRequestBody)
+              .when()
+              .put(LANDING_PAGE + UPDATE_CATEGORY, categoryId)
+              .then()
+              .statusCode(200)
+              .body("categoryName", equalTo("Summer ladies tops"));
+    }
+
+  @Test
   void shouldSuccessfullyRetrieveCategoryByGivenId() {
 
     String categoryRequestBody =
